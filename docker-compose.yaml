@@ -57,6 +57,14 @@ services:
       - playwright-service
     ports:
       - "3002:3002"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`local.firecrawl.com`)"
+      - "traefik.http.services.api.loadbalancer.server.port=3002"
+      - "traefik.http.routers.api.entrypoints=http"
+
+    networks:
+      - shared_network
     command: [ "pnpm", "run", "start:production" ]
 
   worker:
